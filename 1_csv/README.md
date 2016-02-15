@@ -1,30 +1,6 @@
 Stage 1: Basics of dealing with CSVs and data structures in python
 -------------------------------------------------
 
-This stage will explain more about handling CSVs, specifically in python, but it is not intended to teach you how to program. We're going to go through some basic terms and get a workable understanding for what CSVs and how python holds data, and also of how the code precedes with making it useful for us.
-
-CSV stands for Comma-Separated Values. (TSV is intimately related, Tab-Separated Values but we'll focus on CSV for the time being.) It is a standard for representing a table of data in a single 'human readable' file. It may not be intelligible, but you should be able to at least understand what it concerns with very basic text tools.
-
-**One CSV will represent one table of data and little else.** It is like a spreadsheet but doesn't encapsulate anything about formatting, display, formulas, cell references and so on. It is a text file, where each line corresponds to a single row of data, and each header or value in the row is separated by a comma. They are quick to read and quick to create, and allow you to work on them row-by-row, so excellent for holding data in intermediate (and often, final) stages of data processing. The standard doesn't consider how to help people reading the CSV to better understand the content though! 
-
-One key piece of the CSV is the first line. This holds the column 'headers' and is a way for authors to indicate what each column means. How can we see this? **head** is a great tool for this:
-
-	[foobar] $ head data/bibliographic.csv
-	sysnum,title,author,date,place
-	(and 9 other lines too.)
-	[foobar] $ 
-
-The command **head**, like almost all terminal commands, can act differently if we tell it to. We can tell it to only return the first line using the 'flag' "-n 1":
-
-	[foobar] $ head -n 1 data/bibliographic.csv
-	sysnum,title,author,date,place
-	[foobar] $ 
-
-This is a handy trick, especially for huge CSV (and TSV) files as other applications will often try to load the entire file first, whereas **head** just does what you tell it to. If the file is comparatively large (>2GB), this is likely a good first step. (It works on many text-based files too, like XML.)
-
-Stage 1: Basics of dealing with CSVs and "JSON-like" data in python
--------------------------------------------------
-
 This stage will explain more about handling CSVs, specifically in python, but it is not intended to teach you how to program. We're going to go through some basic terms and get a workable understanding for what CSVs and JSON are, and also of how the code precedes with making it useful for us.
 
 CSV stands for Comma-Separated Values. (TSV is intimately related, Tab-Separated Values but we'll focus on CSV for the time being.) It is a standard for representing a table of data in a single 'human readable' file. It may not be intelligible, but you should be able to at least understand what it concerns with very basic text tools.
