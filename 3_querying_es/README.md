@@ -101,6 +101,8 @@ Or to just filter based on all documents:
 
 The Query DSL (Domain Specific Language) is very capable and likewise, requires good documentation to understand well. There are lots of possibilities to explore and the start of the documentation can be found at: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-filter-context.html
 
+This is also a very worthwhile tutorial to follow: http://joelabrahamsson.com/elasticsearch-101/
+
 **Task 1:**
 
 Load the fixed_data.csv into the 'special' index as previously defined.
