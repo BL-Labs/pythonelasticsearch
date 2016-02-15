@@ -41,11 +41,16 @@ The *term* query looks for the exact term in the field’s inverted index —�
 	mapping = { "special" :{
       "properties": {
         "sysnum":  { "type": "string", "index": "not_analyzed"},
-        "author":  { "type": "string", "index": "not_analyzed"},
+        "author":  { "type": "multi_field",
+            "fields": {
+                "author": {"type": "string"},
+                "original": {"type" : "string", "index" : "not_analyzed"}
+            }
+         },
         "title":   {
           "type": "string",
           "analyzer": "standard",
-          "stored": "true"
+          "store": "true"
         },
         "date":    { "type": "integer" },
         "place":   { "type": "string", "index": "not_analyzed"}
@@ -53,7 +58,9 @@ The *term* query looks for the exact term in the field’s inverted index —�
       }
     }
 
-This is a mapping to stop Elasticsearch from analysing certain fields within the book metadata, and enhances the title field. To apply the mapping, you need to create a new blank index and set the mapping at the start:
+This is a mapping to stop Elasticsearch from analysing certain fields within the book metadata, and enhances the title field. The interesting change is that this mapping indexes the author field twice - once as it had before, and a second time without any analysis. This will allow us to search the name field by term and by exact matches, which is quite helpful here. The author data is from an authorative source, and should be identical between records if the author is the same.
+
+To apply the mapping, you need to create a new blank index and set the mapping at the start:
 
 	>>> es.indices.create(index="special")
 	>>> es.indices.put_mapping(index = "special", doc_type = "special", body = mapping)
@@ -76,6 +83,21 @@ Query context is in effect whenever a query clause is passed to a query paramete
 For example, to search for the books with "Les" in the title, but only return those that were published after (greater than -> 'gte') 1850:
 
 	>>> es.search(index="book", body={"query":{"match":{"title": "Les"}}, "filter": { "range": { "date": { "gte": "1850" }}} })
+
+Or to just filter based on all documents:
+
+	>>> query = {"query": {
+                       "filtered": {
+                         "query": {
+                           "match_all": {
+                         }
+                       },
+                     "filter": {
+                       "term": { "date": 1850 }
+                       }
+                     }
+                   }}
+	>>> es.search(index="book", body=query)
 
 The Query DSL (Domain Specific Language) is very capable and likewise, requires good documentation to understand well. There are lots of possibilities to explore and the start of the documentation can be found at: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-filter-context.html
 
